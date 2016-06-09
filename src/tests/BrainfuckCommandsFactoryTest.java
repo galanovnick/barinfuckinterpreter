@@ -1,7 +1,12 @@
 package tests;
 
 import main.java.interpreter.BrainfuckInterpreter;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
@@ -11,6 +16,17 @@ import static org.junit.Assert.*;
 public class BrainfuckCommandsFactoryTest {
 
     BrainfuckInterpreter bfInterpreter = new BrainfuckInterpreter();
+    private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
+    @Before
+    public void setUpStreams() {
+        System.setOut(new PrintStream(outContent));
+    }
+
+    @After
+    public void cleanUpStreams() {
+        System.setOut(null);
+    }
 
     @Test
     public void makeIncrementDPCommandTest() throws Exception {
@@ -30,7 +46,7 @@ public class BrainfuckCommandsFactoryTest {
     public void makeIncrementCommandTest() throws Exception {
         bfInterpreter.setValue((byte) 0);
         bfInterpreter.execute("+");
-        assertEquals("Increment command doesn't work", 1, bfInterpreter.getPointer());
+        assertEquals("Increment command doesn't work", 1, bfInterpreter.getValue());
     }
 
     @Test
@@ -52,4 +68,22 @@ public class BrainfuckCommandsFactoryTest {
         assertEquals("Cycle making command doesn't work.", 5, bfInterpreter.getValue());
     }
 
+    @Test
+    public void makeOutputCommandTest() throws Exception {
+        outContent.reset();
+        bfInterpreter.setValue((byte) 'a');
+        bfInterpreter.execute(".");
+        assertEquals("Output command doesnt work.", "a", outContent.toString());
+
+    }
+
+    @Test
+    public void helloWorldInterpretLineTest() throws Exception {
+        outContent.reset();
+        bfInterpreter = new BrainfuckInterpreter();
+        bfInterpreter.execute("++++++++[>++++[>++>+++>+++>+<<" +
+                "<<-]>+>+>->>+[<]<-]>>.>---.+++++++" +
+                "..+++.>>.<-.<.+++.------.--------.>>+.>++.");
+        assertEquals("Hello World!\n", outContent.toString());
+    }
 }
