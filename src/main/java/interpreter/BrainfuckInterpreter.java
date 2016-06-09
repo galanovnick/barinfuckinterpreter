@@ -23,4 +23,16 @@ public class BrainfuckInterpreter {
     public void execute() {
 
     }
+
+    class BrainfuckCommandsFactory implements CommandsFactory {
+        @Override
+        public Command makeCommandBySymbol(char symbol) {
+            return null;
+        }
+
+        @Override
+        public List<Command> makeCycleByString(String commands) {
+            return null;
+        }
+    }
 }
