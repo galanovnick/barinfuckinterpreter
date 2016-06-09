@@ -5,6 +5,7 @@ import java.util.List;
 
 public class BrainfuckInterpreter {
     private byte[] dataArray;
+
     private int maxDataArraySize;
     private int pointer = 0;
     private boolean errorFlag = false;
@@ -20,8 +21,25 @@ public class BrainfuckInterpreter {
 
     }
 
-    public void execute() {
+    public void execute(String line) {
+        interpretLine(line);
+        commandList.forEach(Command::execute);
+    }
 
+    public int getPointer() {
+        return pointer;
+    }
+
+    public int getValue() {
+        return dataArray[pointer];
+    }
+
+    public void setPointer(int pos) {
+        pointer = pos;
+    }
+
+    public void setValue(byte value) {
+        dataArray[pointer] = value;
     }
 
     class BrainfuckCommandsFactory implements CommandsFactory {
