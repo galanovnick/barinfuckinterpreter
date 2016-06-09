@@ -1,4 +1,4 @@
-package main.java.interpreter;
+package interpreter;
 
 /**
  * Created by nick on 09.06.16.

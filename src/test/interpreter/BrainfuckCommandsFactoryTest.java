@@ -1,6 +1,5 @@
-package tests;
+package interpreter;
 
-import main.java.interpreter.BrainfuckInterpreter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
